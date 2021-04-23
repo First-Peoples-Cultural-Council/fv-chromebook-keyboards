@@ -1,0 +1,25 @@
+{
+  "name": "FirstVoices Keyboards",
+  "version": "0.0.1",
+  "manifest_version": 2,
+  "description": "FirstVoices Keyboards for Chrome OS",
+  "background": {
+    "scripts": [
+        "keyboards/smalgyax.js",
+        "background.js"
+    ]
+  },
+  "permissions": [
+    "input"
+  ],
+  "input_components": [
+    {
+      "name": "FirstVoices Keyboards",
+      "type": "ime",
+      "id": "fv-keyboards",
+      "description": "FirstVoices Keyboards for Chrome OS",
+      "language": "FV",
+      "layouts": ["us"]
+    }
+  ]
+}
