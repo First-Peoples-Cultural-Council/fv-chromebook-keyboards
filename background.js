@@ -22,11 +22,27 @@ chrome.input.ime.onKeyEvent.addListener(
       return false;
     }
 
-    // Store state of caps lock
+    // Store current state of caps lock
     isCapsLockOn = keyData.capsLock;
-  
-    // Only handle keys that are needed
-    if (keyData.code in ActiveKeyboardRules.substitutions) {
+
+    // Handle forward substitutions (modifier + char)
+    if (keyData.code in ActiveKeyboardRules.forward_substitutions) {
+      let rule = ActiveKeyboardRules.forward_substitutions[keyData.code];
+
+      if (previousKeyCode === rule.modifier) {
+        chrome.input.ime.commitText({ "contextID": contextID, "text": rule.substitution });
+        handled = true;
+      }
+    }
+
+    // Handle regular substitutions (char + modifier)
+    else if (keyData.code in ActiveKeyboardRules.substitutions) {
+      if (hasRule(skip_substitutions_key) && 
+          ActiveKeyboardRules.skip_substitutions_key === previousKeyCode) {
+            // Allow for skipping substitutions 
+            return false;
+      }
+
       let result = ActiveKeyboardRules.substitutions[keyData.code];
 
       if (typeof result === 'function') {
