@@ -5,10 +5,23 @@ var previousKey = null;
 var previousKeyCode = null;
 var isCapsLockOn = false;
 
-var ActiveKeyboardRules = Sm_KeyboardRules();
+var ActiveKeyboardRules = null;
+
+window.fvKeyboards = [];
+
+chrome.storage.onChanged.addListener((changes, area) => {
+  if (area === 'sync' && changes.fvActiveKeyboard?.newValue) {
+    setKeyboard(changes.fvActiveKeyboard?.newValue);
+  }
+});
 
 chrome.input.ime.onFocus.addListener(function (context) {
-  contextID = context.contextID;
+    contextID = context.contextID;
+    if (ActiveKeyboardRules === null) {
+       chrome.storage.sync.get(['fvActiveKeyboard'], function(result) {
+           setKeyboard(result.fvActiveKeyboard);
+       }); 
+    }
 });
 
 chrome.input.ime.onBlur.addListener(() => { contextID = -1; }); // Remove context ID on blur
@@ -18,7 +31,7 @@ chrome.input.ime.onKeyEvent.addListener(
     handled = false;
 
     // Only care about keydown
-    if (keyData.type !== 'keydown') {
+    if (keyData.type !== 'keydown' || ActiveKeyboardRules == null) {
       return false;
     }
 
@@ -26,7 +39,8 @@ chrome.input.ime.onKeyEvent.addListener(
     isCapsLockOn = keyData.capsLock;
 
     // Handle forward substitutions (modifier + char)
-    if (keyData.code in ActiveKeyboardRules.forward_substitutions) {
+    if (hasRule("forward_substitutions") && 
+        keyData.code in ActiveKeyboardRules.forward_substitutions) {
       let rule = ActiveKeyboardRules.forward_substitutions[keyData.code];
 
       if (previousKeyCode === rule.modifier) {
@@ -36,8 +50,9 @@ chrome.input.ime.onKeyEvent.addListener(
     }
 
     // Handle regular substitutions (char + modifier)
-    else if (keyData.code in ActiveKeyboardRules.substitutions) {
-      if (hasRule(skip_substitutions_key) && 
+    else if (hasRule("substitutions") && 
+             keyData.code in ActiveKeyboardRules.substitutions) {
+      if (hasRule("skip_substitutions_key") && 
           ActiveKeyboardRules.skip_substitutions_key === previousKeyCode) {
             // Allow for skipping substitutions 
             return false;
@@ -102,4 +117,12 @@ function hasRuleForKey(ruleName, ruleKey) {
         hasRule(ruleName) &&
         ruleKey in ActiveKeyboardRules[ruleName]
     );
+}
+
+// Set active keyboard
+function setKeyboard(keyboardId) {
+    let selectedKeyboard = window.fvKeyboards[keyboardId];
+    if (typeof selectedKeyboard === 'function') {
+        ActiveKeyboardRules = selectedKeyboard();
+    }
 }

@@ -1,4 +1,4 @@
-function Smalgyax_KeyboardRules() {
+window.fvKeyboards['smalgyax'] = function() {
     return {
         "allowed_backwards_combinations": {
             "\u0331": ["a", "g", "k"]
@@ -19,20 +19,6 @@ function Smalgyax_KeyboardRules() {
     };
 }
 
-function Smalgyax_KeyboardMetadata() {
-    return {
-        "name": "",
-        "id": "smalgyax",
-        "metadata": {
-            "author": "First Peoples' Cultural Council",
-            "link": "https://www.fpcc.ca/",
-            "fv_link": ""
-        }
-    };
-}
+function Smalgyax_KeyboardRules() {
 
-function Smalgyax_KeyboardSettings() {
-    return {
-        "test": "test",
-    };
 }

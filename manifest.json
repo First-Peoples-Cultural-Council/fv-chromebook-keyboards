@@ -5,9 +5,9 @@
   "description": "FirstVoices Keyboards for Chrome OS",
   "background": {
     "scripts": [
-      "keyboards/ehat/main.js",
-      "keyboards/smalgyax/main.js",
-      "background.js"
+      "background.js",
+      "keyboards/nuuc/main.js",
+      "keyboards/smalgyax/main.js"
     ]
   },
   "options_page": "options.html",

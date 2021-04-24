@@ -1,4 +1,4 @@
-function Ehat_KeyboardRules() {
+window.fvKeyboards['nuuc'] = function() {
     return {
         "allowed_backwards_combinations": {
             "\u0313": ["c", "t", "y", "p", "n"]
@@ -38,4 +38,8 @@ function Ehat_KeyboardRules() {
             },
         }
     };
+}
+
+function Nuuc_KeyboardRules() {
+
 }

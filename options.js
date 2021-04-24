@@ -1,8 +1,17 @@
+var fvActiveKeyboard = null;
+
+chrome.storage.sync.get(['fvActiveKeyboard'], function(result) {
+    fvActiveKeyboard = result.fvActiveKeyboard;
+});
 
 // Saves options to chrome.storage
 function saveOptions() {
     var selectedKeyboard = document.getElementById('keyboards').value;
 
+    if (selectedKeyboard === "null") {
+        chrome.storage.sync.remove("fvActiveKeyboard");
+    }
+    
     chrome.storage.sync.set({
         fvActiveKeyboard: selectedKeyboard
     }, function () {
@@ -22,28 +31,19 @@ function initOptions() {
     let keyboardsSelect = document.getElementById('keyboards');
     let manifest = chrome.runtime.getManifest();
 
-    // Load keyboard metadata
-    for (script in manifest.background.scripts) {
+    // Load keyboard metadata and add as options
+    for (index in manifest.background.scripts) {
+        let script = manifest.background.scripts[index];
         if (script.startsWith("keyboards/")) {
             fetch(script.replace("main.js", "metadata.json"))
             .then(response => {
-                let metadata = response.json();
-                // Add as option
-                keyboardsSelect.options[keyboardsSelect.options.length] = new Option(metadata.name, metadata.id);
+                response.json().then(metadata => {
+                    keyboardsSelect.options[keyboardsSelect.options.length] = 
+                        new Option(metadata.name, metadata.id, false, (fvActiveKeyboard === metadata.id));
+                });
             });
-
-            // Load keyboard json
-            // var req = new XMLHttpRequest();
-            // req.onload = handleResponse;
-            // req.onerror = handleError;
-            // req.open('GET', script.replace("main.js", "metadata.json"), true);
-            // req.send(null);
         }
     }
-
-    chrome.storage.sync.get(['fvActiveKeyboard'], function(result) {
-        document.getElementById('keyboards').value = result.fvActiveKeyboard;
-    });
 }
 
 document.addEventListener('DOMContentLoaded', initOptions);
