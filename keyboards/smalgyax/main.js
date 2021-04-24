@@ -8,17 +8,13 @@ window.fvKeyboards['smalgyax'] = function() {
                 return combineWithPreviousChar("\u0331");
             },
             "BracketLeft": function() {
-                return handleCase("ü", "Ü");
+                return handleCase("ü", "Ü");
             },
             "BracketRight": function() {
-                return handleCase("ẅ", "Ẅ");
+                return handleCase("ẅ", "Ẅ");
             },
             "Backslash": "?",
             "Slash": "\u0142"
         }
     };
-}
-
-function Smalgyax_KeyboardRules() {
-
 }
