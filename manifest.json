@@ -21,7 +21,7 @@
       "type": "ime",
       "id": "fv-keyboards",
       "description": "FirstVoices Keyboards for Chrome OS",
-      "language": "FV",
+      "language": "en-US",
       "layouts": ["us"]
     }
   ]
