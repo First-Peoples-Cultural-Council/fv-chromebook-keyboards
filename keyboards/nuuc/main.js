@@ -34,7 +34,7 @@ window.fvKeyboards['nuuc'] = function() {
             "Digit9": "ʔ",
             "Digit0": "ʕ",
             "Quote": function() {
-                return combineWithPreviousChar("\u0331");
+                return combineWithPreviousChar("\u0313");
             },
         }
     };
