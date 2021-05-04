@@ -1,27 +1,33 @@
+/**
+Note:
+On ChromeBooks many RightAlt+Key combinations are reserved. Instead, use ShiftRight+Key.
+To skip all substitutions (e.g. to type numbers normally) - activate caps lock (RightAlt + Search key)
+**/
+
 window.fvKeyboards['nuuc'] = function() {
     return {
+        "caps_cancels_substitution": true,
         "allowed_backwards_combinations": {
             "\u0313": ["c", "t", "y", "p", "n"]
         },
         "forward_substitutions": {
             "KeyN": {
-                "modifier": "RightAlt",
+                "modifier": "ShiftRight",
                 "substitution": "ŋ"
             },
             "KeyE": {
-                "modifier": "RightAlt",
+                "modifier": "ShiftRight",
                 "substitution": "ə"
             },
             "KeyL": {
-                "modifier": "RightAlt",
+                "modifier": "ShiftRight",
                 "substitution": "ɫ"
             },
             "KeyL": {
-                "modifier": "RightAlt",
+                "modifier": "ShiftRight",
                 "substitution": "ɫ"
             },
         },
-        "skip_substitutions_key": "RightAlt",
         "substitutions": {
             "Digit1": "\u0302",
             "Digit2": "\u02B7",

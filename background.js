@@ -38,6 +38,11 @@ chrome.input.ime.onKeyEvent.addListener(
     // Store current state of caps lock
     isCapsLockOn = keyData.capsLock;
 
+    if (isCapsLockOn &&
+        hasRule("caps_cancels_substitution") && keyData.code.indexOf("Digit") == 0) {
+        return false;
+    }
+      
     // Handle forward substitutions (modifier + char)
     if (hasRule("forward_substitutions") && 
         keyData.code in ActiveKeyboardRules.forward_substitutions) {
