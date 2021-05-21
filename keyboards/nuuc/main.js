@@ -8,7 +8,7 @@ window.fvKeyboards['nuuc'] = function() {
     return {
         "caps_cancels_substitution": true,
         "allowed_backwards_combinations": {
-            "\u0313": ["c", "t", "y", "p", "n"]
+            "\u0313": ["c", "č", "ƛ", "k", "m", "w", "t", "y", "p", "n"]
         },
         "forward_substitutions": {
             "KeyN": {
