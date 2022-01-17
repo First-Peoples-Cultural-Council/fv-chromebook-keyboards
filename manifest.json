@@ -3,16 +3,12 @@
   "version": "0.0.2",
   "manifest_version": 2,
   "description": "FirstVoices Keyboards for Chrome OS",
-  "icons": {
-    "16": "icon16.png",
-    "48": "icon48.png",
-    "128": "icon128.png"
-  },
   "background": {
     "scripts": [
       "background.js",
       "keyboards/nuuc/main.js",
-      "keyboards/smalgyax/main.js"
+      "keyboards/smalgyax/main.js",
+      "keyboards/ucwalmicwts/main.js"
     ]
   },
   "options_page": "options.html",
