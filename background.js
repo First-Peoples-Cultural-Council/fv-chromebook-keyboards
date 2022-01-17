@@ -7,6 +7,9 @@ var isCapsLockOn = false;
 
 var ActiveKeyboardRules = null;
 
+// Test whether the character is uppercase (latin)
+const isUpperCase = (string) => /^[A-Z]*$/.test(string)
+
 window.fvKeyboards = [];
 
 chrome.storage.onChanged.addListener((changes, area) => {
@@ -49,7 +52,14 @@ chrome.input.ime.onKeyEvent.addListener(
       let rule = ActiveKeyboardRules.forward_substitutions[keyData.code];
 
       if (previousKeyCode === rule.modifier) {
-        chrome.input.ime.commitText({ "contextID": contextID, "text": rule.substitution });
+
+        let substitution = rule.substitution;
+
+        if (isUpperCase(keyData.key) && hasRule("uppercase_forward_substitutions")) {
+          substitution = substitution.toUpperCase();
+        }
+
+        chrome.input.ime.commitText({ "contextID": contextID, "text": substitution });
         handled = true;
       }
     }

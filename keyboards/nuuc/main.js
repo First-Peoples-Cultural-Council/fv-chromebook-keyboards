@@ -45,7 +45,3 @@ window.fvKeyboards['nuuc'] = function() {
         }
     };
 }
-
-function Nuuc_KeyboardRules() {
-
-}

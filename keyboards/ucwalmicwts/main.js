@@ -6,6 +6,7 @@ To skip all substitutions (e.g. to type numbers normally) - activate caps lock (
 
 window.fvKeyboards['ucwalmicwts'] = function() {
     return {
+        "uppercase_forward_substitutions": true,
         "allowed_backwards_combinations": {
             "\u0313": ["p", "P", "t", "s", "k", "q", "z", "m", "n", "w", "y", "r", "g"],
             "\u0332": ["l", "s", "t"]
