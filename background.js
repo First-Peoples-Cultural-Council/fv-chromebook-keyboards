@@ -106,7 +106,7 @@ function combineWithPreviousChar(combinedChar, normalizedChars, engineID) {
       
     if (normalizedChars != null && previousKey != null && previousKey.concat(combinedChar) in normalizedChars) {
         // Delete one char back
-        chrome.input.ime.deleteSurroundingText({"contextID": contextID, "engineID": "fv-keyboards", "length": 1, "offset": -1});
+        chrome.input.ime.deleteSurroundingText({"contextID": contextID, "engineID": "fv-keyboards", "length": 5, "offset": -1});
         // Convert certain combined diacritics to individual chars
         result = normalizedChars[previousKey.concat(combinedChar)];
     }

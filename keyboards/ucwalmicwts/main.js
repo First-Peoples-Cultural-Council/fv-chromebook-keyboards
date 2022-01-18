@@ -8,13 +8,14 @@ window.fvKeyboards['ucwalmicwts'] = function() {
     
     // These are combining keys that will be replaced with a single, valid unicode representation
     let normalizedChars = {
-        "A̓": "\u00C1"
+        "Á": "\u00C1"
     };
     
     return {
         "allowed_backwards_combinations": {
-            "\u0313": ["p", "P", "t", "s", "k", "q", "z", "m", "n", "w", "y", "r", "g", "a", "A"],
-            "\u0332": ["l", "s", "t"]
+            "\u0313": ["p", "P", "t", "s", "k", "q", "z", "m", "n", "w", "y", "r", "g"],
+            "\u0332": ["l", "s", "t"],
+            "\u0301": ["a", "A", "e", "E"]
         },
         "forward_substitutions": {
             "KeyL": {
@@ -49,10 +50,13 @@ window.fvKeyboards['ucwalmicwts'] = function() {
        },    
         "substitutions": {
             "Semicolon": function() {
-                return combineWithPreviousChar("\u0313", normalizedChars);
+                return combineWithPreviousChar("\u0313");
             },
             "Backslash": function() {
                 return combineWithPreviousChar("\u0332");
+            },
+            "Backquote": function() {
+                return combineWithPreviousChar("\u0301", normalizedChars);
             }
         }
     };
