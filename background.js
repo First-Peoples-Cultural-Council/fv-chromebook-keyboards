@@ -52,14 +52,7 @@ chrome.input.ime.onKeyEvent.addListener(
       let rule = ActiveKeyboardRules.forward_substitutions[keyData.code];
 
       if (previousKeyCode === rule.modifier) {
-
-        let substitution = rule.substitution;
-
-        if (isUpperCase(keyData.key) && hasRule("uppercase_forward_substitutions")) {
-          substitution = substitution.toUpperCase();
-        }
-
-        chrome.input.ime.commitText({ "contextID": contextID, "text": substitution });
+        chrome.input.ime.commitText({ "contextID": contextID, "text": rule.substitution });
         handled = true;
       }
     }
@@ -76,7 +69,7 @@ chrome.input.ime.onKeyEvent.addListener(
       let result = ActiveKeyboardRules.substitutions[keyData.code];
 
       if (typeof result === 'function') {
-        result = result.call(this);
+        result = result.call(this, engineID);
       }
         
       if (result === null) {
@@ -97,20 +90,41 @@ chrome.input.ime.onKeyEvent.addListener(
 
 // Core methods
 
-// Combine with previous character, if allowed
-function combineWithPreviousChar(combinedChar) {
+// Combine 'combinedChar' with previous character, if allowed
+// If 'normalizedChars' are provided, these will be convered to a single diacritic
+function combineWithPreviousChar(combinedChar, normalizedChars, engineID) {
+  let result = null;
+  
   if (hasRuleForKey("allowed_backwards_combinations", combinedChar) && 
     combinedChar in ActiveKeyboardRules.allowed_backwards_combinations) {
     // If rules are defined for combining characters and for this character
     let restrictions = ActiveKeyboardRules.allowed_backwards_combinations[combinedChar];
 
     if (restrictions.indexOf(previousKey) != -1) {
-      return combinedChar;
+      result = combinedChar;
+    }
+      
+    if (normalizedChars != null && previousKey != null && previousKey.concat(combinedChar) in normalizedChars) {
+        // Delete one char back
+        chrome.input.ime.deleteSurroundingText({"contextID": contextID, "engineID": "fv-keyboards", "length": 1, "offset": -1});
+        // Convert certain combined diacritics to individual chars
+        result = normalizedChars[previousKey.concat(combinedChar)];
     }
   }
 
-  return null;
+  return result;
 }
+
+// Will convert certain accents to a normalized version (char + accent, to unicode char)
+/*function normalizeChars(combinedChar) {
+  if (hasRuleForKey("normalized_chars", combinedChar) && 
+    combinedChar in ActiveKeyboardRules.normalized_chars) {
+    // If this combination can be normalized
+    return ActiveKeyboardRules.normalized_chars[combinedChar];
+  }
+
+  return combinedChar;
+}*/
 
 // Handle case
 function handleCase(lowercaseKey, uppercaseKey) {
