@@ -7,15 +7,38 @@ To skip all substitutions (e.g. to type numbers normally) - activate caps lock (
 window.fvKeyboards['ucwalmicwts'] = function() {
     return {
         "allowed_backwards_combinations": {
-            "\u0313": ["p", "P", "t", "s", "k", "q", "z", "m", "n", "w", "y", "r", "g"],
-            "\u0332": ["l", "s", "t"],
-            "\u0301": ["a", "A", "e", "E"]
+            "\u0313": ["p", "P", "t", "T", "s", "S", "k", "K", "q", "Q", "z", "Z", "m", "M",   "n", "N", "w", "W", "y", "Y", "r", "R", "g", "G"],
+            "\u0332": ["l", "L", "s", "S", "t", "T"]
         },
         // The following are activated once CAPSLOCK is on (e.g. CAPSLOCK; ShiftRight + A)
         "uc_forward_substitutions": {
             "KeyA": {
                 "modifier": "ShiftRight",
                 "substitution": "\u00C1"
+            },
+             "KeyE": {
+                "modifier": "ShiftRight",
+                "substitution": "\u00c9"              
+            },
+             "KeyL": {
+                "modifier": "ShiftRight",
+                "substitution": "\u013d"
+            },
+             "KeyI": {
+                "modifier": "ShiftRight",
+                "substitution": "\u00cd"
+            },
+             "KeyO": {
+                "modifier": "ShiftRight",
+                "substitution": "\u00d3"
+            },
+             "KeyU": {
+                "modifier": "ShiftRight",
+                "substitution": "\u00da"
+            },
+             "KeyV": {
+                "modifier": "ShiftRight",
+                "substitution": "V́"
             }
        },
         // The following are direct substitutions (e.g. ShiftRight + E)
@@ -23,6 +46,11 @@ window.fvKeyboards['ucwalmicwts'] = function() {
             "KeyL": {
                 "modifier": "ShiftRight",
                 "substitution": "ľ"
+            },
+            "KeyA": {
+                "modifier": "ShiftRight",
+                "substitution": "á"
+            
             },
             "KeyE": {
                 "modifier": "ShiftRight",
@@ -57,9 +85,6 @@ window.fvKeyboards['ucwalmicwts'] = function() {
             },
             "Backslash": function() {
                 return combineWithPreviousChar("\u0332");
-            },
-            "Backquote": function() {
-                return combineWithPreviousChar("\u0301");
             }
        }
     };
