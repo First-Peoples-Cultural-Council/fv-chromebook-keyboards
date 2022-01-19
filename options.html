@@ -3,28 +3,156 @@
 
 <head>
     <title>FirstVoices Keyboard Options</title>
-</head>
-
-<body>
-
-<!-- 
+    
+    <style>
+        body{
+            font-size:16px;
+        }
+        
+        .container{
+            display: grid;
+            grid-template-columns: repeat(5, 20% [col-start]);
+        }
+ 
+        .message{
+            width: 80%;
+            max-height: 40px;
+            background-color: yellow;
+            padding: 10px;
+            display: none;
+            font-size: 1.2em;
+            border: 1px solid gray;
+        }
+        
+        .save{
+            color: #fff;
+            text-transform: uppercase;
+            font-weight: bold;
+            text-decoration: none;
+            background: #ed3330;
+            padding: 10px;
+            border-radius: 5px;
+            display: inline-block;
+            border: none;
+            transition: all 0.4s ease 0s;
+        }
+        
+        .select{
+            background: #fefefe;
+            padding: 10px;
+            margin: 0 5px;
+            border-radius: 5px;
+            display: inline-block;
+            border: 1px solid gray;
+            transition: all 0.4s ease 0s;
+            font-size: 1.2em;
+        }
+        
+        .item-1{
+            grid-column: 1 / span 2;
+            padding-left: 25px;
+        }
+        
+        .item-2{
+            grid-column: 3 / span 3;
+        }
+        
+        .item-3{
+            grid-column: 1 / span 5;
+            text-align: center;
+            margin-top: 100px;
+        }
+        
+        .keyboard-instructions,
+        #selected-keyboard-container{
+            display: none;
+        }
+    </style>
+    
+    <!-- 
     Useful resources:
         https://keycode.info/
         https://keyman.com/keyboards?q=fv_
         https://languagegeek.com/lgwp/keyboards/
         https://www.firstvoices.com
--->
+    -->
+</head>
 
-    Active Keyboard:
-    <select id="keyboards">
-        <option value="null">Please select:</option>
-    </select>
+<body>
 
-    <div id="status"></div>
+    <h1>FirstVoices Keyboards Options</h1>
     
-    <button id="save">Save</button>
-    
+    <div class="container">
+        <div class="item item-1">
+            <p>
+                Select Active Keyboard
+                <select id="keyboards" class="select">
+                    <option value="null">Please Select:</option>
+                </select> &nbsp;
+                <button id="save" class="save">Save</button>
+            </p>
+            
+            <p id="status" class="message"></p>
+        </div>
+        
+        <div class="item item-2">
+            <h2 id="selected-keyboard-container">Selected Keyboard Instruction: <span id="selectedKeyboard"></span></h2>
+            
+            <div class="keyboard-instructions" id="nuuc-instructions">
+                These are instructions for this keyboard! One thing here.
+                <table>
+                    <tr>
+                        <th>head1</th>
+                        <th>head2</th>
+                    </tr>
+                    <tr>
+                        <td>test</td>
+                        <td> test</td>
+                    </tr>
+                </table>
+            </div>
+            
+            <div class="keyboard-instructions" id="smalgyax-instructions">
+                These are instructions for this keyboard! Another thing here.
+                <table>
+                    <tr>
+                        <th>head1</th>
+                        <th>head2</th>
+                    </tr>
+                    <tr>
+                        <td>test</td>
+                        <td> test</td>
+                    </tr>
+                </table>
+            </div>
+            
+            <div class="keyboard-instructions" id="ucwalmicwts-instructions">
+                These are instructions for this keyboard! A different set here.
+                <table>
+                    <tr>
+                        <th>head1</th>
+                        <th>head2</th>
+                    </tr>
+                    <tr>
+                        <td>test</td>
+                        <td> test</td>
+                    </tr>
+                </table>
+            </div>
+            
+        </div>
+        
+        <div class="item item-3">
+            <footer>
+                <hr />
+                Visit us at <a href="https://www.firstvoices.com" target="_blank">FirstVoices.com</a>
+            </footer>
+        </div>
+    </div>
+
     <script src="options.js"></script>
+    
+    
 </body>
 
 </html>
