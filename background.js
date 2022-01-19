@@ -47,14 +47,13 @@ chrome.input.ime.onKeyEvent.addListener(
     }
       
     // Handle forward substitutions (modifier + char)
-    if (hasRule("forward_substitutions") && 
+    if (isCapsLockOn && hasRule("uc_forward_substitutions") && 
+        keyData.code in ActiveKeyboardRules.uc_forward_substitutions) {
+        handled = doSubstitution(ActiveKeyboardRules.uc_forward_substitutions[keyData.code], previousKeyCode);
+    }
+    else if (hasRule("forward_substitutions") && 
         keyData.code in ActiveKeyboardRules.forward_substitutions) {
-      let rule = ActiveKeyboardRules.forward_substitutions[keyData.code];
-
-      if (previousKeyCode === rule.modifier) {
-        chrome.input.ime.commitText({ "contextID": contextID, "text": rule.substitution });
-        handled = true;
-      }
+      handled = doSubstitution(ActiveKeyboardRules.forward_substitutions[keyData.code], previousKeyCode);
     }
 
     // Handle regular substitutions (char + modifier)
@@ -69,7 +68,7 @@ chrome.input.ime.onKeyEvent.addListener(
       let result = ActiveKeyboardRules.substitutions[keyData.code];
 
       if (typeof result === 'function') {
-        result = result.call(this, engineID);
+        result = result.call(this);
       }
         
       if (result === null) {
@@ -90,9 +89,8 @@ chrome.input.ime.onKeyEvent.addListener(
 
 // Core methods
 
-// Combine 'combinedChar' with previous character, if allowed
-// If 'normalizedChars' are provided, these will be convered to a single diacritic
-function combineWithPreviousChar(combinedChar, normalizedChars, engineID) {
+// Combine 'combinedChar' with previous character
+function combineWithPreviousChar(combinedChar) {
   let result = null;
   
   if (hasRuleForKey("allowed_backwards_combinations", combinedChar) && 
@@ -103,28 +101,20 @@ function combineWithPreviousChar(combinedChar, normalizedChars, engineID) {
     if (restrictions.indexOf(previousKey) != -1) {
       result = combinedChar;
     }
-      
-    if (normalizedChars != null && previousKey != null && previousKey.concat(combinedChar) in normalizedChars) {
-        // Delete one char back
-        chrome.input.ime.deleteSurroundingText({"contextID": contextID, "engineID": "fv-keyboards", "length": 5, "offset": -1});
-        // Convert certain combined diacritics to individual chars
-        result = normalizedChars[previousKey.concat(combinedChar)];
-    }
   }
 
   return result;
 }
 
-// Will convert certain accents to a normalized version (char + accent, to unicode char)
-/*function normalizeChars(combinedChar) {
-  if (hasRuleForKey("normalized_chars", combinedChar) && 
-    combinedChar in ActiveKeyboardRules.normalized_chars) {
-    // If this combination can be normalized
-    return ActiveKeyboardRules.normalized_chars[combinedChar];
-  }
-
-  return combinedChar;
-}*/
+// Performs Uppercase or Lowercase substitution
+function doSubstitution(rule, previousKeyCode) {
+    if (previousKeyCode === rule.modifier) {
+        chrome.input.ime.commitText({ "contextID": contextID, "text": rule.substitution });
+        return true;
+    }
+    
+    return false;
+}
 
 // Handle case
 function handleCase(lowercaseKey, uppercaseKey) {

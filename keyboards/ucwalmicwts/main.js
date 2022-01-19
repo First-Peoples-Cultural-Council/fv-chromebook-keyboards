@@ -5,18 +5,20 @@ To skip all substitutions (e.g. to type numbers normally) - activate caps lock (
 **/
 
 window.fvKeyboards['ucwalmicwts'] = function() {
-    
-    // These are combining keys that will be replaced with a single, valid unicode representation
-    let normalizedChars = {
-        "Á": "\u00C1"
-    };
-    
     return {
         "allowed_backwards_combinations": {
             "\u0313": ["p", "P", "t", "s", "k", "q", "z", "m", "n", "w", "y", "r", "g"],
             "\u0332": ["l", "s", "t"],
             "\u0301": ["a", "A", "e", "E"]
         },
+        // The following are activated once CAPSLOCK is on (e.g. CAPSLOCK; ShiftRight + A)
+        "uc_forward_substitutions": {
+            "KeyA": {
+                "modifier": "ShiftRight",
+                "substitution": "\u00C1"
+            }
+       },
+        // The following are direct substitutions (e.g. ShiftRight + E)
         "forward_substitutions": {
             "KeyL": {
                 "modifier": "ShiftRight",
@@ -47,8 +49,9 @@ window.fvKeyboards['ucwalmicwts'] = function() {
     
             },
 
-       },    
-        "substitutions": {
+       },
+       // The following create combined characters when allowed (k + Semicolon)
+       "substitutions": {
             "Semicolon": function() {
                 return combineWithPreviousChar("\u0313");
             },
@@ -56,8 +59,8 @@ window.fvKeyboards['ucwalmicwts'] = function() {
                 return combineWithPreviousChar("\u0332");
             },
             "Backquote": function() {
-                return combineWithPreviousChar("\u0301", normalizedChars);
+                return combineWithPreviousChar("\u0301");
             }
-        }
+       }
     };
 }
